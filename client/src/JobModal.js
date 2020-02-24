@@ -25,14 +25,15 @@ export default function JobModal({job, open, handleClose}) {
         keepMounted
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
+        aria-describedby="alert-dialog-slide-description">
         <DialogTitle id="alert-dialog-slide-title">
             {job.title} - {job.company}
-            <img className={'detail-logo'} src={job.company_logo} />
+            <img className={'detail-logo'} src={job.company_logo}  alt={'alt'}/>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description" dangerouslySetInnerHTML={{__html: job.description}} />>
+          <DialogContentText
+              id="alert-dialog-slide-description"
+              dangerouslySetInnerHTML={{__html: job.description}} />
         </DialogContent>
         <DialogActions>
             <a href={job.url} target="_blank">

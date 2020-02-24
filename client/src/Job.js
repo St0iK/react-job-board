@@ -10,7 +10,7 @@ export default function Job({job, onClick}) {
                 <Typography>{job.location}</Typography>
             </div>
             <div>
-            <Typography>{job.created_at.split(' ').splice(0,3).join(' ')}</Typography>
+                <Typography>{job.created_at.split(' ').splice(0,3).join(' ')}</Typography>
             </div>
         </div>
     )

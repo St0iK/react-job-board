@@ -2,10 +2,7 @@ import React from 'react';
 import './App.css';
 import Jobs from './Jobs'
 
-const JOBS_API_URL = 'http://localhost:5000/jobs';
-const mockJobs = [
-  {title: 'SWE', company: 'Google'}
-]; 
+const JOBS_API_URL = '/jobs';
 
 async function fetchJobs(apiUrl, updateCallback) {
   const res = await fetch(apiUrl);
@@ -22,7 +19,7 @@ function App() {
 
   React.useEffect(() => {
     fetchJobs(JOBS_API_URL, updateJobs);
-  }, [])
+  }, []);
 
   return (
     <div className="App">

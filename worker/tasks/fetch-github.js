@@ -1,9 +1,8 @@
 const fetch = require('node-fetch');
 const redis = require("redis");
 const { promisify } = require("util");
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDIS_URL);
 
-const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 
 const baseUrl = 'https://jobs.github.com/positions.json';
@@ -17,27 +16,18 @@ async function fetchGithub() {
         const res = await fetch(`${baseUrl}?page=${onPage}`);
         const jobs = await res.json();
         resultCount = jobs.length;
-        console.log(resultCount);
         allJobs.push(...jobs);
         onPage++;
     }
-    console.log('Done')
-
-    const juniorJobs = allJobs.filter(job => {
-        const jobTitle = job.title.toLowerCase();
-        
-        if (jobTitle.includes('Junior') || jobTitle.includes('Apprentice')) {
-            return false;
-        }
-
-        return true;
-    });
     
+    const seniorJobs = allJobs.filter(job => {
+        const jobTitle = job.title.toLowerCase();
+        return !(jobTitle.includes('Junior') || jobTitle.includes('Apprentice'));
+    });
 
-    const success = await setAsync('github', JSON.stringify(allJobs));
+    const success = await setAsync('github', JSON.stringify(seniorJobs));
     console.log(success);
 }
-
 
 module.exports = fetchGithub;
 module.exports();
